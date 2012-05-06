@@ -1,0 +1,28 @@
+!!! 5
+html
+	head
+		title=title
+		link(rel='stylesheet', href='/styles/style.css')
+		link(rel='stylesheet', href='/styles/jquery-ui-1.8.18.custom.css')
+		script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js')
+
+		- if (stream)
+				script(src='/socket.io/socket.io.js')
+				script(src='/js/app.js')
+				script(src='/js/jquery.hotkeys.js')
+				script(src='/js/jquery.blockUI.js')
+				script(src='/js/jquery-ui.js')
+				script(src='/js/jquery.backstretch.js')		
+
+		body
+			header
+				span(class='wikisewer')	
+					a(href="/") WikiSewer
+				br
+				span(class='pauseInfo') Press "p" to pause
+				br
+			div(id="content")!=body
+
+
+
+

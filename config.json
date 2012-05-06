@@ -1,0 +1,78 @@
+{
+  "ircNick": "Fildiskusjon", 
+  "ircUserName": "FildiskusjonBot", 
+  "ircRealName": "whoops", 
+  "log": false, 
+  "port": 3000,
+  "wikipedias": { 
+    "#es.wikipedia": {
+      "short": "es", 
+      "long": "Spanish Wikipedia", 
+      "namespaces": {
+        "Media": "media", 
+        "MediaWiki": "mediawiki", 
+        "Plantilla Discusi\u00f3n": "template talk", 
+        "Discusi\u00f3n": "talk", 
+        "Especial": "special", 
+        "Usuario Discusi\u00f3n": "user talk", 
+        "$1 Discusi\u00f3n": "project talk", 
+        "Categor\u00eda Discusi\u00f3n": "category talk", 
+        "Categor\u00eda": "category", 
+        "Ayuda Discusi\u00f3n": "help talk", 
+        "Usuario": "user", 
+        "MediaWiki Discusi\u00f3n": "mediawiki talk", 
+        "Plantilla": "template", 
+        "Archivo Discusi\u00f3n": "file talk", 
+        "Archivo": "file", 
+        "Ayuda": "help"
+      }
+    }, 
+     
+    "#en.wikipedia": {
+      "short": "en", 
+      "long": "English Wikipedia", 
+      "namespaces": {
+        "": "main", 
+        "Category": "category", 
+        "Media": "media", 
+        "MediaWiki": "mediawiki", 
+        "Template": "template", 
+        "$1 talk": "project talk", 
+        "Help talk": "help talk", 
+        "User": "user", 
+        "Template talk": "template talk", 
+        "MediaWiki talk": "mediawiki talk", 
+        "Talk": "talk", 
+        "Help": "help", 
+        "File talk": "file talk", 
+        "File": "file", 
+        "User talk": "user talk", 
+        "Special": "special", 
+        "Category talk": "category talk"
+      }
+    }, 
+    "#commons.wikimedia": {
+      "short": "co", 
+      "long": "Wikimedia Commons", 
+      "namespaces": {
+        "": "main", 
+        "Category": "category", 
+        "Media": "media", 
+        "MediaWiki": "mediawiki", 
+        "Template": "template", 
+        "$1 talk": "project talk", 
+        "Help talk": "help talk", 
+        "User": "user", 
+        "Template talk": "template talk", 
+        "MediaWiki talk": "mediawiki talk", 
+        "Talk": "talk", 
+        "Help": "help", 
+        "File talk": "file talk", 
+        "File": "file", 
+        "User talk": "user talk", 
+        "Special": "special", 
+        "Category talk": "category talk"
+      }
+    } 
+  }
+}
