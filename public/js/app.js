@@ -47,6 +47,7 @@ function addUpdate(msg){
 		.append(delta)
 		.append(comment)
 		.hide();
+		
 	//only print edit to stream if vandalCheck is true
 	if (vandalCheck) {
 		$('#updates').prepend(d);
