@@ -80,7 +80,6 @@ function parse_msg(msg, config){
 		pageUrl: pageUrl,
 		url: m[3],
 		delta: delta,
-		//grab msgs only if the comments contain 'revert'
 		comment: m[6],
 		wikipedia: wikipedia,
 		wikipediaUrl: wikipediaUrl,

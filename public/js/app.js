@@ -28,6 +28,8 @@ function addUpdate(msg){
 	var lang = $('<span>').attr({'class': 'lang'}).text('[' + msg.wikipediaLong + ']');
 	var a = $('<a>').attr({'class': 'page', 'href': msg.url, 'title': msg.comment, target: '_new'}).text(msg.page);
 	var comment = $('<span>').attr({'class': 'comment'}).text(msg.comment);
+	//this checks for vandalism in an edit (based only on the comment)
+	var vandalCheck = msg.comment.match(/vandal/) ? true:false;
 	var delta;
 	if (msg.delta == null) delta = "n/a";
 	else if (msg.delta < 0) delta = msg.delta;
@@ -45,9 +47,11 @@ function addUpdate(msg){
 		.append(delta)
 		.append(comment)
 		.hide();
-	$('#updates').prepend(d);
-	d.slideDown('slow');
-
+	//only print edit to stream if vandalCheck is true
+	if (vandalCheck) {
+		$('#updates').prepend(d);
+		d.slideDown('slow');
+	} else {return;}
 	//here went the background code, augment to create view of diffs
 }
 
