@@ -5,7 +5,8 @@
 	"dependencies": {
 		"express": "2.5.x",
 		"jade": "0.12.x",
-		"redis": "0.6.x",
+		//"redis": "0.6.x",
+		"mongoose": "1.0.x",
 		"coloured": "0.2.x",
 		"irc-js": "0.2.x",
 		"log": "1.2.x",

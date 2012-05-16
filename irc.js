@@ -3,7 +3,8 @@
 var fs = require('fs'),
 	path = require('path'),
 	irc = require('irc-js'),
-	redis = require('redis').createClient();
+	//redis = require('redis').createClient();
+	mongo = require('mongoose').connect('mongodb://localhost:27017');
 
 function listen(config, callback){
 	channels = [];
@@ -106,5 +107,7 @@ function getNamespace(wikipedia, page, config){
 	}
 	return ns;
 }
+
+//mongo business here, to store the data for later use.
 
 exports.listen = listen;
