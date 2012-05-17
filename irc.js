@@ -3,8 +3,9 @@
 var fs = require('fs'),
 	path = require('path'),
 	irc = require('irc-js'),
-	//redis = require('redis').createClient();
-	mongo = require('mongoose').connect('mongodb://localhost:27017');
+	redis = require('redis').createClient();
+	mongo = require('mongodb'),
+		db = new mongo.Db('wikis', new mongo.Server('localhost', 27017, {}), {});
 
 function listen(config, callback){
 	channels = [];
@@ -93,8 +94,12 @@ function parse_msg(msg, config){
 		robot: isRobot,
 		namespace: namespace,
 		minor: isMinor
+		
 	}
+	console.log(this.url);
 }
+
+
 
 function getNamespace(wikipedia, page, config){
 	ns = null;
@@ -108,6 +113,22 @@ function getNamespace(wikipedia, page, config){
 	return ns;
 }
 
-//mongo business here, to store the data for later use.
+mongo business here, to store the data for later use.
+db.open(function(){
+
+	db.collection('wikiCollection', function(err, collection, msg){
+		doc = {
+			"page": JSON.string(msg.page),
+			"url": this.text(msg.url),
+			"user": this.text(msg.user)
+		};
+		
+		collection.insert(doc, function(){
+			console.log('Got a record, boss!');
+		});	
+	});
+});
+
+//do the
 
 exports.listen = listen;

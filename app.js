@@ -5,9 +5,10 @@ var fs = require('fs'),
 	http = require('http'),
 	path = require('path'),
 
-	//redis = require('redis'),
+	redis = require('redis'),
 	//let us use mongodb
-	mongo = require('mongoose'),
+	mongo = require('mongodb'),
+
 	_ = require('underscore'),
 	sio = require('socket.io'),
 	express = require('express');
