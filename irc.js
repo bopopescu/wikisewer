@@ -30,6 +30,8 @@ function listen(config, callback){
 			if (m){
 				callback(m);
 				//stats(m);
+				//hollaBack(m);
+				saveRecs(m);
 			}
 		});
 	});
@@ -96,8 +98,9 @@ function parse_msg(msg, config){
 		minor: isMinor
 		
 	}
-	console.log(this.url);
+	
 }
+
 
 
 
@@ -113,22 +116,35 @@ function getNamespace(wikipedia, page, config){
 	return ns;
 }
 
-mongo business here, to store the data for later use.
-db.open(function(){
+//mongo business here, to store the data for later use.
+function saveRecs(msg){
+	
+	function dbOpenCheck(err, db){
+		console.log("db is open, boss!");
+	
+	db.open(dbOpenCheck);
+	
+	//db.open(function(){
+	
+		db.collection('wikiCollection', function(err, collection){
+			doc = {
+				"page": msg.page,
+				"url": msg.url,
+				"user": msg.user
+			};
+			
+			collection.insert(doc, function(){
+				console.log('Got a record, boss!');
+			});	
+		});
+	//});
+	}
 
-	db.collection('wikiCollection', function(err, collection, msg){
-		doc = {
-			"page": JSON.string(msg.page),
-			"url": this.text(msg.url),
-			"user": this.text(msg.user)
-		};
-		
-		collection.insert(doc, function(){
-			console.log('Got a record, boss!');
-		});	
-	});
-});
+}
 
-//do the
+//just checking how we bring the msg object back around *temporary function*
+// function hollaBack(msg){
+// 	console.log(msg.url, msg.comment, msg.comment, msg.comment);
+// }
 
 exports.listen = listen;
