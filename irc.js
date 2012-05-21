@@ -67,7 +67,8 @@ function parse_msg(msg, config){
 	var isNewPage = flag.match(/N/) ? true:false;
 	var isUnpatrolled = flag.match(/!/) ? true:false;
 	var isMinor = flag.match(/M/) ? true:false;
-
+	//var isVandal = m[6].match(/vandal/) ? true:false;
+	//return isVandal;
 	var page = m[1];
 	var wikipedia = msg[0];
 	var wikipediaUrl = 'http://' + wikipedia.replace('#', '') + '.org';
@@ -102,8 +103,6 @@ function parse_msg(msg, config){
 }
 
 
-
-
 function getNamespace(wikipedia, page, config){
 	ns = null;
 	var parts = page.split(':');
@@ -122,28 +121,32 @@ function dbOpenCheck(err, db){
 
 db.open(dbOpenCheck);
 
-//mongo business here, to store the data for later use.
 function saveRecs(msg){
-	
+	saveVandals(msg);
+}
 
-	
+//mongo business here, to store the data for later use.
+function saveVandals(msg){
 	
 	//db.open(function(){
-	
+	if (msg.comment.match(/vandal/)){
 		db.collection('wikiCollection', function(err, collection){
 			doc = {
 				"page": msg.page,
 				"url": msg.url,
-				"user": msg.user
+				"user": msg.user,
+				"comment": msg.comment
 			};
 			
-			collection.insert(doc, function(){
-				console.log('Got a record, boss!');
-			});	
-		});
+				collection.insert(doc, function(){
+					console.log('Got a record, boss!');
+				});	
+			   
+			});
 	//});
+	}
+        
 }
-//do the
 
 //just checking how we bring the msg object back around *temporary function*
 // function hollaBack(msg){
