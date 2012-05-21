@@ -116,13 +116,17 @@ function getNamespace(wikipedia, page, config){
 	return ns;
 }
 
+function dbOpenCheck(err, db){
+	console.log("db is open, boss!");
+}
+
+db.open(dbOpenCheck);
+
 //mongo business here, to store the data for later use.
 function saveRecs(msg){
 	
-	function dbOpenCheck(err, db){
-		console.log("db is open, boss!");
+
 	
-	db.open(dbOpenCheck);
 	
 	//db.open(function(){
 	
@@ -138,9 +142,8 @@ function saveRecs(msg){
 			});	
 		});
 	//});
-	}
-
 }
+//do the
 
 //just checking how we bring the msg object back around *temporary function*
 // function hollaBack(msg){
