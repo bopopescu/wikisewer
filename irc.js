@@ -3,7 +3,7 @@
 var fs = require('fs'),
 	path = require('path'),
 	irc = require('irc-js'),
-	redis = require('redis').createClient();
+	//redis = require('redis').createClient();
 	mongo = require('mongodb'),
 		db = new mongo.Db('wikis', new mongo.Server('localhost', 27017, {}), {});
 
