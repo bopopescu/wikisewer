@@ -30,8 +30,6 @@ function listen(config, callback){
 			m = parse_msg(msg.params, config);
 			if (m){
 				callback(m);
-				//stats(m);
-				//hollaBack(m);
 				saveRecs(m);
 			}
 		});
@@ -68,8 +66,6 @@ function parse_msg(msg, config){
 	var isNewPage = flag.match(/N/) ? true:false;
 	var isUnpatrolled = flag.match(/!/) ? true:false;
 	var isMinor = flag.match(/M/) ? true:false;
-	//var isVandal = m[6].match(/vandal/) ? true:false;
-	//return isVandal;
 	var page = m[1];
 	var wikipedia = msg[0];
 	var wikipediaUrl = 'http://' + wikipedia.replace('#', '') + '.org';
@@ -77,22 +73,29 @@ function parse_msg(msg, config){
 	var userUrl = wikipediaUrl + '/wiki/User:' + user;
 	var namespace = getNamespace(wikipedia, page, config);
 	var vandalContent;
-	//from https://github.com/chriso/node.io
-	if (m[6].match(/vandal/) && namespace === "article"){
-		nodeio.scrape(function(){
-			this.getHtml(m[3], function(err, $){
-				console.log('getting HTML, boss.');
-				//why does this not write?
-				 vandalContent = $('span.diffchange.diffchange-inline').text();
-				//logs 'Getting HTML, boss' for each instance and then registers OK: Job Complete then quits
-				});
-			});
-		} else {
-			vandalContent = "no content";
-		}
 	
-	/*TODO - once our copy is working, will wrap this in a codition
-	only to output objects where the comments contain 'revert' */ 
+
+	//from https://github.com/chriso/node.io
+	//I get the feeling this is not going to work.
+	// if (m[6].match(/vandal/) && namespace === "article"){
+	// 	nodeio.scrape(function(){
+	// 		this.getHtml(m[3], function(err, $){
+	// 			//console.log('getting HTML, boss.');
+	// 			console.log(err);
+	// 			var output = [];
+	// 			$('span.diffchange.diffchange-inline').each(function(scraped){
+	// 				output.push(scraped.rawtext);
+	// 			});
+	// 			this.emit(output);
+
+	// 		  });
+
+	// 		});
+	// 	} else {
+	// 		vandalContent = "no content";
+	// 	}
+	
+ 
 	return {
 		flag: flag,
 		page: page,
@@ -142,7 +145,7 @@ function saveRecs(msg){
 //mongo business here, to store the data for later use.
 function saveVandals(msg){
 	
-	//db.open(function(){
+
 	if (msg.comment.match(/vandal/)){
 		db.collection('wikiCollection', function(err, collection){
 			doc = {
@@ -157,25 +160,9 @@ function saveVandals(msg){
 				});	
 			   
 			});
-	//});
 	}
         
 }
 
-//just checking how we bring the msg object back around *temporary function*
-// function hollaBack(msg){
-// 	console.log(msg.url, msg.comment, msg.comment, msg.comment);
-// }
 
 exports.listen = listen;
-
-
-// require('node.io').scrape(function() {
-//     this.getHtml('http://www.reddit.com/', function(err, $) {
-//         var stories = [];
-//         $('a.title').each(function(title) {
-//             stories.push(title.text);
-//         });
-//         this.emit(stories);
-//     });
-// });
