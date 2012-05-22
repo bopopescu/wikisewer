@@ -9,6 +9,8 @@ var fs = require('fs'),
 	mongo = require('mongodb'),
 	_ = require('underscore'),
 	sio = require('socket.io'),
+	//can we scrape with this?
+	nodeio = require('node.io'),
 	express = require('express');
 
 //attach configuration

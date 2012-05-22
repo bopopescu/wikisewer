@@ -3,6 +3,7 @@
 var fs = require('fs'),
 	path = require('path'),
 	irc = require('irc-js'),
+	nodeio = require('node.io'),
 	//redis = require('redis').createClient();
 	mongo = require('mongodb'),
 		db = new mongo.Db('wikis', new mongo.Server('localhost', 27017, {}), {});
@@ -75,7 +76,20 @@ function parse_msg(msg, config){
 	var pageUrl = wikipediaUrl + '/wiki/' + page.replace(/ /g, '_');
 	var userUrl = wikipediaUrl + '/wiki/User:' + user;
 	var namespace = getNamespace(wikipedia, page, config);
-
+	var vandalContent;
+	//from https://github.com/chriso/node.io
+	if (m[6].match(/vandal/) && namespace === "article"){
+		nodeio.scrape(function(){
+			this.getHtml(m[3], function(err, $){
+				console.log('getting HTML, boss.');
+				//why does this not write?
+				 vandalContent = $('span.diffchange.diffchange-inline').text();
+				//logs 'Getting HTML, boss' for each instance and then registers OK: Job Complete then quits
+				});
+			});
+		} else {
+			vandalContent = "no content";
+		}
 	
 	/*TODO - once our copy is working, will wrap this in a codition
 	only to output objects where the comments contain 'revert' */ 
@@ -96,8 +110,8 @@ function parse_msg(msg, config){
 		anonymous: anonymous,
 		robot: isRobot,
 		namespace: namespace,
-		minor: isMinor
-		
+		minor: isMinor,
+		vandalContent: vandalContent
 	}
 	
 }
@@ -154,3 +168,14 @@ function saveVandals(msg){
 // }
 
 exports.listen = listen;
+
+
+// require('node.io').scrape(function() {
+//     this.getHtml('http://www.reddit.com/', function(err, $) {
+//         var stories = [];
+//         $('a.title').each(function(title) {
+//             stories.push(title.text);
+//         });
+//         this.emit(stories);
+//     });
+// });
