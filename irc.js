@@ -1,4 +1,4 @@
-//imports and exports
+//imports
 
 var fs = require('fs'),
 	path = require('path'),
