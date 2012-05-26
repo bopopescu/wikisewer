@@ -77,23 +77,24 @@ function parse_msg(msg, config){
 
 	//from https://github.com/chriso/node.io
 	//I get the feeling this is not going to work.
-	// if (m[6].match(/vandal/) && namespace === "article"){
-	// 	nodeio.scrape(function(){
-	// 		this.getHtml(m[3], function(err, $){
-	// 			//console.log('getting HTML, boss.');
-	// 			console.log(err);
-	// 			var output = [];
-	// 			$('span.diffchange.diffchange-inline').each(function(scraped){
-	// 				output.push(scraped.rawtext);
-	// 			});
-	// 			this.emit(output);
+	if (m[6].match(/vandal/) && namespace === "article"){
+		nodeio.scrape(function(){
+			this.getHtml(m[3], function(err, $){
+				//console.log('getting HTML, boss.');
+				console.log(err);
+				var output = [];
+				$('span.diffchange.diffchange-inline').each(function(scraped){
+					output.push(scraped.rawtext);
+				});
+				vandalContent = output.toString();
+				console.log("your content is: " + vandalContent);
 
-	// 		  });
+			  });
 
-	// 		});
-	// 	} else {
-	// 		vandalContent = "no content";
-	// 	}
+			});
+		} else {
+			vandalContent = "no content";
+		}
 	
  
 	return {
@@ -113,8 +114,8 @@ function parse_msg(msg, config){
 		anonymous: anonymous,
 		robot: isRobot,
 		namespace: namespace,
-		minor: isMinor,
-		vandalContent: vandalContent
+		minor: isMinor
+		//vandalContent: vandalContent
 	}
 	
 }
