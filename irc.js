@@ -77,24 +77,24 @@ function parse_msg(msg, config){
 
 	//from https://github.com/chriso/node.io
 	//I get the feeling this is not going to work.
-	if (m[6].match(/vandal/) && namespace === "article"){
-		nodeio.scrape(function(){
-			this.getHtml(m[3], function(err, $){
-				//console.log('getting HTML, boss.');
-				console.log(err);
-				var output = [];
-				$('span.diffchange.diffchange-inline').each(function(scraped){
-					output.push(scraped.rawtext);
-				});
-				vandalContent = output.toString();
-				console.log("your content is: " + vandalContent);
+	// if (m[6].match(/vandal/) && namespace === "article"){
+	// 	nodeio.scrape(function(){
+	// 		this.getHtml(m[3], function(err, $){
+	// 			//console.log('getting HTML, boss.');
+	// 			console.log(err);
+	// 			var output = [];
+	// 			$('span.diffchange.diffchange-inline').each(function(scraped){
+	// 				output.push(scraped.rawtext);
+	// 			});
+	// 			vandalContent = output.toString();
+	// 			console.log("your content is: " + vandalContent);
 
-			  });
+	// 		  });
 
-			});
-		} else {
-			vandalContent = "no content";
-		}
+	// 		});
+	// 	} else {
+	// 		vandalContent = "no content";
+	// 	}
 	
  
 	return {
@@ -147,13 +147,15 @@ function saveRecs(msg){
 function saveVandals(msg){
 	
 
-	if (msg.comment.match(/vandal/)){
+	if (msg.comment.match(/vandal/) && msg.namespace === "article"){
 		db.collection('wikiCollection', function(err, collection){
 			doc = {
+				"time": new Date().getTime(),
 				"page": msg.page,
 				"url": msg.url,
-				"user": msg.user,
-				"comment": msg.comment
+				//"user": msg.user,
+				//"comment": msg.comment
+				"delta": msg.delta
 			};
 			
 				collection.insert(doc, function(){

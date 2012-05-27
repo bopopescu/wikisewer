@@ -49,7 +49,7 @@ function addUpdate(msg){
 		.hide();
 		
 	//only print edit to stream if vandalCheck is true
-	if (vandalCheck) {
+	if (vandalCheck && msg.namespace === 'article') {
 		$('#updates').prepend(d);
 		d.slideDown('slow');
 	} else {return;}
