@@ -7,6 +7,8 @@ var fs = require('fs'),
 	//redis = require('redis').createClient();
 	mongo = require('mongodb'),
 		db = new mongo.Db('wikis', new mongo.Server('localhost', 27017, {}), {});
+		//db.createCollection('wikiCollectionCapped', {capped:true, size: 1000000000});		
+
 
 function listen(config, callback){
 	channels = [];
@@ -148,7 +150,7 @@ function saveVandals(msg){
 	
 
 	if (msg.comment.match(/vandal/) && msg.namespace === "article"){
-		db.collection('wikiCollection', function(err, collection){
+		db.collection('wikiCollectionCapped', function(err, collection){
 			doc = {
 				"time": new Date().getTime(),
 				"page": msg.page,
