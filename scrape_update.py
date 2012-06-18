@@ -62,10 +62,19 @@ try:
 					#time.sleep(10)
 				except AttributeError as e:
 					print 'something wrong with the text', e
+					vandal_text = "This vandalism is not available right now."
+					print vandal_text
 					continue
 			else:
 				print '===',message['page'],'==='
 				print 'Not a deletion'
+				vandal_text = 'Not a deletion'
+				nest = [td.find('img') for td in soup.findAll('a', { 'class': 'image'} )]
+				imgs = [x['src'] for x in nest]
+				if len(imgs)>0:
+					img = "http:" + imgs[0]
+				else:
+					img = "no image"
 	
 			collection_out.insert({'time':message['time'], 
 								   'diff-url':message['url'], 
