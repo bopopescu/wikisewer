@@ -148,7 +148,7 @@ function saveRecs(msg){
 //mongo business here, to store the data for later use.
 function saveVandals(msg){
 	
-
+	
 	if (msg.comment.match(/vandal/) && msg.namespace === "article"){
 		db.collection('wikiCollectionCapped', function(err, collection){
 			doc = {
@@ -159,13 +159,18 @@ function saveVandals(msg){
 				//"comment": msg.comment
 				"delta": msg.delta
 			};
-			
+				
 				collection.insert(doc, function(){
+					
 					console.log('Got a record, boss!');
+					
 				});	
+				
 			   
 			});
+
 	}
+
         
 }
 

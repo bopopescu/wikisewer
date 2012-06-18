@@ -8,6 +8,7 @@ import urllib2
 MONGO_SERVER = "127.0.0.1"
 MONGO_DATABASE = "wikis"
 MONGO_COLLECTION = "wikiCollectionCapped"
+MONGO_COLLECTION_OUT = "vandalResults"
 
 #defining what is a newline, for scraper
 Newlines = re.compile(r'[\r\n]\s+')
@@ -15,6 +16,7 @@ Newlines = re.compile(r'[\r\n]\s+')
 mongodb = pymongo.Connection(MONGO_SERVER, 27017)
 database = mongodb[MONGO_DATABASE]
 collection = database[MONGO_COLLECTION]
+collection_out = database[MONGO_COLLECTION_OUT]
 
 #get a cursor to loop through documents by time
 cursor = collection.find({}, await_data=True, tailable=True)
@@ -46,11 +48,16 @@ try:
 				try:
 					txt = [td.find('span', {'class':'diffchange diffchange-inline'}).getText('\n') for td in soup.findAll('td', {'class':'diff-deletedline'})]
 					nest = [td.find('img') for td in soup.findAll('a', { 'class': 'image'} )]
-					img = [x['src'] for x in nest]
+					imgs = [x['src'] for x in nest]
+					if len(imgs)>0:
+						img = "http:" + imgs[0]
+					else:
+						img = "no image"
 
+					vandal_text = ', '.join(txt)
 				
 					print '===',message['page'],'==='
-					print txt
+					print vandal_text
 					print img
 					#time.sleep(10)
 				except AttributeError as e:
@@ -60,7 +67,11 @@ try:
 				print '===',message['page'],'==='
 				print 'Not a deletion'
 	
-
+			collection_out.insert({'time':message['time'], 
+								   'diff-url':message['url'], 
+								   'page':message['page'], 
+								   'vandalism':vandal_text, 
+								   'image':img})
 			
 		except StopIteration:
 			print "No more records"
