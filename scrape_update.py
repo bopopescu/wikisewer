@@ -28,7 +28,6 @@ try:
 		
 		try:
 			message = cursor.next()
-			
 			#print the entire record
 			#print message
 			#print the URL only
@@ -46,7 +45,10 @@ try:
 				##scrape that url and get the diff text
 				#txt = soup.find('td', {'class':'diff-deletedline'}).getText('\n')
 				try:
-					txt = [td.find('span', {'class':'diffchange diffchange-inline'}).getText('\n') for td in soup.findAll('td', {'class':'diff-deletedline'})]
+					#TODO 25JUN2012 - fix this scraping business here
+					#txt = [td.find('span', {'class':'diffchange diffchange-inline'}).getText('\n') for td in soup.findAll('td', {'class':'diff-deletedline'})]
+					txt = [td.findAll('div') for td in soup.findAll('td', {'class':'diff-deletedline'})]
+					txt2 = [td.findAll('div') for td in soup.findAll('td', {'class':'diff-addedline'})]		
 					nest = [td.find('img') for td in soup.findAll('a', { 'class': 'image'} )]
 					imgs = [x['src'] for x in nest]
 					if len(imgs)>0:
@@ -54,21 +56,24 @@ try:
 					else:
 						img = "no image"
 
-					vandal_text = ', '.join(txt)
-				
+					#vandal_text = ', '.join(txt)
+					txt = txt.string
+					txt2 = txt2.string
+					print txt
+					print txt2
 					print '===',message['page'],'==='
-					print vandal_text
+					#print vandal_text
 					print img
 					#time.sleep(10)
 				except AttributeError as e:
 					print 'something wrong with the text', e
-					vandal_text = "This vandalism is not available right now."
-					print vandal_text
+					txt = "This vandalism is not available right now."
+					print txt
 					continue
 			else:
 				print '===',message['page'],'==='
 				print 'Not a deletion'
-				vandal_text = 'Not a deletion'
+				txt = 'Not a deletion'
 				nest = [td.find('img') for td in soup.findAll('a', { 'class': 'image'} )]
 				imgs = [x['src'] for x in nest]
 				if len(imgs)>0:
@@ -77,9 +82,10 @@ try:
 					img = "no image"
 	
 			collection_out.insert({'time':message['time'], 
-								   'diff-url':message['url'], 
+								   'diff_url':message['url'], 
 								   'page':message['page'], 
-								   'vandalism':vandal_text, 
+								   'vandalism':txt,
+								   'unvandalism':txt2, 
 								   'image':img})
 			
 		except StopIteration:

@@ -5,8 +5,12 @@
 <h3> All this </h3>
 <ul>	
 	{% for item in vandalism %}
-		<img src="{{item.image}}"/>
-		<h4> {{ item.page }} </h4> <p> {{ item.vandalism }} </p>
+		{% if item.image == "no image" %}
+			<img src="http://hostelcentraal.com/Images/no_photo.jpg" width="150" height="150"/>
+		{% else %}
+			<img src="{{item.image}}"/>
+		{% endif %}
+		<a href="{{item.diff_url}}" target="_blank"><h4>{{ item.page }}</h4></a> <p> {{ item.vandalism }} </p>
 			
 	{% endfor %}
 </ul>	

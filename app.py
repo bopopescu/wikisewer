@@ -2,7 +2,6 @@ from flask import Flask, render_template
 #from mongokit import Connection, Document
 #from flask.ext.pymongo import PyMongo
 from pymongo import Connection#, json_util
-from flask_debugtoolbar import DebugToolbarExtension
  	
 
 #MONGO_HOST = 'localhost'
@@ -14,7 +13,6 @@ db = connection.wikis
 vandalisms = db.vandalResults
 #mongo = PyMongo(app)
 #app.config.from_object(__name__)
-toolbar = DebugToolbarExtension(app)
 app.debug = True
 
 #connection = Connection(app.config['MONGO_HOST'],
