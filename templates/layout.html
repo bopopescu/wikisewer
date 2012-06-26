@@ -1,5 +1,11 @@
 <!doctype html>
+<head>
+	{% block head %}
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+	{% endblock %}
+</head>
 <title>Wikisewer</title>
 
 <h1>Wikisewer</h1>
 {% block body %}{% endblock %}
+</html>
