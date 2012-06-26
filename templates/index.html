@@ -10,8 +10,10 @@
 		{% else %}
 			<img src="{{item.image}}"/>
 		{% endif %}
-		<a href="{{item.diff_url}}" target="_blank"><h4>{{ item.page }}</h4></a> <p> {{ item.vandalism }} </p>
-			
+		<!-- use the '|safe' filter to inject the raw html--> 
+		<a href="{{item.diff_url}}" target="_blank"><h4>{{ item.page }}</h4></a> <p> {{ item.vandalism|safe }} </p> <br />
+		-------------------------------------------------------------------------------
+		<p>{{item.unvandalism|safe}}</p>			
 	{% endfor %}
 </ul>	
 {% endblock %}
