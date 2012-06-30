@@ -1,7 +1,14 @@
+body{font-family: Arial, "MS Trebuchet", sans-serif;}
+
 img{
 	border: solid;
 }
 
 .diffchange{
 	background-color: #facade;
+	font-weight:bold;
 }
+
+.before{background-color:#fff8d7;}
+
+.after{background-color:#f1fdd9;}

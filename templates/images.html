@@ -1,15 +1,12 @@
-
 {% extends 'layout.html' %}
 {% block body %}
 
 <h3> All this </h3>
 <ul>	
-	{% for item in vandalism %}
-		{% if item.image == "no image" %}
-			<img src="http://hostelcentraal.com/Images/no_photo.jpg" width="150" height="150"/>
-		{% else %}
-			<img src="{{item.image}}" height='150px' width='150px'/>
-		{% endif %}
+	{% for item in vandalism_img %}
+		
+		<img src="{{item.image}}" height='150px' width='150px'/>
+		
 		<!-- use the '|safe' filter to inject the raw html--> 
 		<a href="{{item.diff_url}}" target="_blank"><h4>{{ item.page }}</h4></a> 
 		<div class="before">
@@ -18,7 +15,7 @@
 		-------------------------------------------------------------------------------
 		<div class="after">
 			<p>{{item.unvandalism|safe}}</p>
-		</div>			
+		</div>
 	{% endfor %}
 </ul>	
 {% endblock %}

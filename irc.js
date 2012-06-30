@@ -151,13 +151,15 @@ function saveVandals(msg){
 	
 	if (msg.comment.match(/vandal/) && msg.namespace === "article"){
 		db.collection('wikiCollectionCapped', function(err, collection){
+		//db.collection('newWikisCapped', function(err, collection){
 			doc = {
 				"time": new Date().getTime(),
 				"page": msg.page,
 				"url": msg.url,
-				//"user": msg.user,
+				"user": msg.user,
 				//"comment": msg.comment
-				"delta": msg.delta
+				"delta": msg.delta,
+				"scraped": 0
 			};
 				
 				collection.insert(doc, function(){

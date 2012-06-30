@@ -4,11 +4,16 @@ import pymongo
 import BeautifulSoup
 import re
 import urllib2
+from time import strftime
+from datetime import datetime
 
 MONGO_SERVER = "127.0.0.1"
 MONGO_DATABASE = "wikis"
 MONGO_COLLECTION = "wikiCollectionCapped"
 MONGO_COLLECTION_OUT = "vandalResults"
+# MONGO_DATABASE = "wikis"
+# MONGO_COLLECTION = "newWikisCapped"
+# MONGO_COLLECTION_OUT = "testOutput"
 
 #defining what is a newline, for scraper
 Newlines = re.compile(r'[\r\n]\s+')
@@ -19,15 +24,21 @@ collection = database[MONGO_COLLECTION]
 collection_out = database[MONGO_COLLECTION_OUT]
 
 #get a cursor to loop through documents by time
-cursor = collection.find({}, await_data=True, tailable=True)
+cursor = collection.find({'scraped': {'$ne': 1}}, await_data=True, tailable=True)
 
 #lets check to see it worked
 try:
 	while cursor.alive:
 		#print "Start"
 		
+		#check if record has been processed already
+		#if cursor.next({'scraped': {'$ne': 1}}):
+			#if so, scrape it
 		try:
 			message = cursor.next()
+			
+			#date = datetime.fromtimestamp(int(message['time'])).strftime('%Y-%m-%d %H:%M:%S')
+
 			#print the entire record
 			#print message
 			#print the URL only
@@ -84,17 +95,26 @@ try:
 				#else:
 				#	img = "no image"
 	
-			collection_out.insert({'time':message['time'], 
+			collection_out.insert({'time':message['time'],
+								   #'date':date,
 								   'diff_url':message['url'], 
 								   'page':message['page'], 
 								   'vandalism':txt,
 								   'unvandalism':txt2, 
-								   'image':img})
+								   'image':img,
+								   'delta':message['delta']})
+			
+			#use this opportunity to update the input record
+			collection.update({"_id":message['_id']}, {'$set':{'scraped': 1}}, upsert=True)
 			
 		except StopIteration:
 			print "No more records"
 			sys.exit(0)
-			
+		#if not, move on to next record
+		#else:
+			# print "arready screpped"
+			# pass
+				
 except pymongo.errors.OperationFailure as e:
 	print "Utterly failed, this is so bad. What happened was: ", e
 	

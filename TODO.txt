@@ -1,0 +1,19 @@
+6/26 - 
+
+- Give it the power to vote
+
+- Give users the ability to build a query (or just have some basic queries there)
+
+- add date
+
+- better styling 
+
+- make it automatic, single process from gathering to display (need to better understand how the collections will interact and grow)
+
+- folksonomy (political, sexual, prurient, personal/inside)
+
+- do something with this: http://en.wikipedia.org/wiki/File:<all the files go here>
+
+- mark already scraped??
+
+- what's up with the Year being out of range?

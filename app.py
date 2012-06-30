@@ -23,5 +23,17 @@ def home_page():
 	vandalism = vandalisms.find()
 	return render_template('index.html', vandalism = vandalism)
 
+@app.route('/less')
+def less_page():
+	#vandalism = mongo.db.vandalResults.find()
+	vandalism_less = vandalisms.find({'delta': {'$lt':50}})
+	return render_template('less.html', vandalism_less = vandalism_less)
+
+@app.route('/images')
+def less_page():
+	#vandalism = mongo.db.vandalResults.find()
+	vandalism_img = vandalisms.find({'image': {'$ne':'no image'}})
+	return render_template('images.html', vandalism_img = vandalism_img)
+
 if __name__ == '__main__':
 	app.run()
