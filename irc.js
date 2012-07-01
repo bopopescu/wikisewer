@@ -154,6 +154,8 @@ function saveVandals(msg){
 		//db.collection('newWikisCapped', function(err, collection){
 			doc = {
 				"time": new Date().getTime(),
+				"date": new Date(),
+				"date2": new Date().toUTCString(),
 				"page": msg.page,
 				"url": msg.url,
 				"user": msg.user,

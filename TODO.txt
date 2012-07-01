@@ -1,10 +1,8 @@
-6/26 - 
+TODO - 
 
 - Give it the power to vote
 
 - Give users the ability to build a query (or just have some basic queries there)
-
-- add date
 
 - better styling 
 
@@ -14,6 +12,11 @@
 
 - do something with this: http://en.wikipedia.org/wiki/File:<all the files go here>
 
-- mark already scraped??
 
-- what's up with the Year being out of range?
+TODONE -
+
+-DONE- mark already scraped??
+
+-DONE- add date
+	* what's up with the Year being out of range?
+	 ---that was for converting UNIX time to date time, forget it, we'll store the datetime from the beginning

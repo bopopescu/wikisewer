@@ -50,7 +50,7 @@ try:
 			#try:
 			req = urllib2.Request(url, headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.52 Safari/536.5'})
 			data = urllib2.urlopen(req).read()
-			#soup = BeautifulSoup.BeautifulSoup(data, convertEntities=BeautifulSoup.BeautifulSoup.HTML_ENTITIES)
+			soup2 = BeautifulSoup.BeautifulSoup(data, convertEntities=BeautifulSoup.BeautifulSoup.HTML_ENTITIES)
 			soup = BeautifulSoup.BeautifulSoup(data)
 			#for now only give us the deletions of vandalism on not the vandalistic delections
 			#if message['delta'] < 0:
@@ -58,6 +58,8 @@ try:
 				#txt = soup.find('td', {'class':'diff-deletedline'}).getText('\n')
 			try:
 				#TODO 25JUN2012 - fix this scraping business here
+				
+				offender = soup2.find('a', {'class':'mw-userlink'}).getText()
 				#txt = [td.find('span', {'class':'diffchange diffchange-inline'}).getText('\n') for td in soup.findAll('td', {'class':'diff-deletedline'})]
 				txt = [td.findAll('div') for td in soup.findAll('td', {'class':'diff-deletedline'})]
 				txt2 = [td.findAll('div') for td in soup.findAll('td', {'class':'diff-addedline'})]		
@@ -79,6 +81,7 @@ try:
 				#print vandal_text
 				print img
 				#time.sleep(10)
+
 			except AttributeError as e:
 				print 'something wrong with the text', e
 				txt = "This vandalism is not available right now."
@@ -96,11 +99,14 @@ try:
 				#	img = "no image"
 	
 			collection_out.insert({'time':message['time'],
-								   #'date':date,
+								   'date':message['date'],
+								   'date_str': message['date2'],
 								   'diff_url':message['url'], 
 								   'page':message['page'], 
 								   'vandalism':txt,
-								   'unvandalism':txt2, 
+								   'unvandalism':txt2,
+								   'offender':offender,
+								   'reverter': message['user'], 
 								   'image':img,
 								   'delta':message['delta']})
 			
