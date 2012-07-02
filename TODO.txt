@@ -6,11 +6,25 @@ TODO -
 
 - better styling 
 
-- make it automatic, single process from gathering to display (need to better understand how the collections will interact and grow)
+- make it automatic, single process from gathering to display (need to better understand how the collections will interact and grow) - Or just run from cron at normal intervals.
+ 	* this is why we can't have nice things (can't run app.js and app.py @the/same/time:
+ 		Traceback (most recent call last):
+  		File "app.py", line 39, in <module>
+  		  app.run()
+  		File "/home/quomop/local/lib/python2.7/site-packages/Flask-0.8-		py2.7.egg/flask/app.py", line 703, in run
+  		  run_simple(host, port, self, **options)
+  		File "/usr/local/lib/python2.7/dist-packages/Werkzeug-0.8.1-		py2.7.egg/werkzeug/serving.py", line 610, in run_simple
+  		  test_socket.bind((hostname, port))
+  		File "/usr/lib/python2.7/socket.py", line 224, in meth
+  		  return getattr(self._sock,name)(*args)
+  		socket.error: [Errno 98] Address already in use
+
 
 - folksonomy (political, sexual, prurient, personal/inside)
 
 - do something with this: http://en.wikipedia.org/wiki/File:<all the files go here>
+
+
 
 
 TODONE -
@@ -20,3 +34,5 @@ TODONE -
 -DONE- add date
 	* what's up with the Year being out of range?
 	 ---that was for converting UNIX time to date time, forget it, we'll store the datetime from the beginning
+
+-DONE- there is no user page for anonymous users, use http://en.wikipedia.org/wiki/Special:Contributions/<IP Address> template here. (will require reg-ex in flask)

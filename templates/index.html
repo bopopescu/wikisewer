@@ -5,6 +5,7 @@
 <h3> All this </h3>
 <ul>	
 	{% for item in vandalism %}
+		{{ item.date }} <br />
 		{% if item.image == "no image" %}
 			<img src="http://hostelcentraal.com/Images/no_photo.jpg" width="150" height="150"/>
 		{% else %}
@@ -17,8 +18,17 @@
 		</div>
 		-------------------------------------------------------------------------------
 		<div class="after">
-			<p>{{item.unvandalism|safe}}</p>
-		</div>			
+			<p>{{ item.unvandalism|safe }}</p>
+		</div>		
+		<!-- This section requires a regex to parse anonymous users from known users. (or go back to the IRC.js script) -->
+		<div class = "author">
+			<p>By User: 
+			{% if item.anon == False %}
+				<a href = "http://en.wikipedia.org/wiki/user:{{item.offender}}" target="_blank">{{ item.offender }}</a>
+			{% else %}
+				<a href = "http://en.wikipedia.org/wiki/Special:Contributions/{{item.offender}}" target="_blank">{{ item.offender }}</a>
+			{% endif %}
+		</div>
 	{% endfor %}
 </ul>	
 {% endblock %}

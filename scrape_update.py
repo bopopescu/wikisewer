@@ -50,8 +50,10 @@ try:
 			#try:
 			req = urllib2.Request(url, headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.52 Safari/536.5'})
 			data = urllib2.urlopen(req).read()
-			soup2 = BeautifulSoup.BeautifulSoup(data, convertEntities=BeautifulSoup.BeautifulSoup.HTML_ENTITIES)
+			
 			soup = BeautifulSoup.BeautifulSoup(data)
+			soup2 = BeautifulSoup.BeautifulSoup(data, convertEntities=BeautifulSoup.BeautifulSoup.HTML_ENTITIES)
+			
 			#for now only give us the deletions of vandalism on not the vandalistic delections
 			#if message['delta'] < 0:
 				##scrape that url and get the diff text
@@ -60,6 +62,7 @@ try:
 				#TODO 25JUN2012 - fix this scraping business here
 				
 				offender = soup2.find('a', {'class':'mw-userlink'}).getText()
+			
 				#txt = [td.find('span', {'class':'diffchange diffchange-inline'}).getText('\n') for td in soup.findAll('td', {'class':'diff-deletedline'})]
 				txt = [td.findAll('div') for td in soup.findAll('td', {'class':'diff-deletedline'})]
 				txt2 = [td.findAll('div') for td in soup.findAll('td', {'class':'diff-addedline'})]		
@@ -70,6 +73,11 @@ try:
 				else:
 					img = "no image"
 				
+				if re.match(r"\d+.\d+.\d+.\d+", offender):
+					anon = True
+				else:
+					anon = False 
+
 				txt = str(txt).strip('[[]]')				
 				txt2 = str(txt2).strip('[[]]')
 				#txt = txt.string
@@ -108,6 +116,7 @@ try:
 								   'offender':offender,
 								   'reverter': message['user'], 
 								   'image':img,
+								   'anon': anon,
 								   'delta':message['delta']})
 			
 			#use this opportunity to update the input record
@@ -132,9 +141,3 @@ print "bye-bye!"
 
 
 
-
-##save diff text
-
-##update to include text with each documents
-
-##repeat
