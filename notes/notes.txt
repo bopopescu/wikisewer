@@ -1,0 +1,8 @@
+Voting - 
+
+ - Buttons for voting reach into each record, 
+ 	 - have a rendering in the view
+
+ - post method in the URL + JQuery
+
+ - POST methods with pymongo

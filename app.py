@@ -1,7 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 #from mongokit import Connection, Document
 #from flask.ext.pymongo import PyMongo
 from pymongo import Connection#, json_util
+#from pymongo.objectid import ObjectId #this is deprecated
+import bson.objectid
  	
 
 #MONGO_HOST = 'localhost'
@@ -34,6 +36,24 @@ def less_page():
 	#vandalism = mongo.db.vandalResults.find()
 	vandalism_img = vandalisms.find({'image': {'$ne':'no image'}})
 	return render_template('images.html', vandalism_img = vandalism_img)
+
+#how to add tags
+@app.route('/tagger/<thisguy>')
+def tag_it(thisguy):
+	
+	#TODO - This tags item is the problem, look into request form get>oo<
+	tags = request.form.get('tag', [])
+	print tags
+
+	this_item = vandalisms.find({'_id': bson.objectid.ObjectId(thisguy)})
+
+	print this_item[1]
+
+
+	vandalisms.update(this_item,
+					  {'$pushAll': {'tags': tags}}, upsert=True)
+	return redirect("/")
+
 
 if __name__ == '__main__':
 	app.run()

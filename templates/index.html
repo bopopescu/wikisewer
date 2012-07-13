@@ -2,33 +2,50 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-<h3> All this </h3>
-<ul>	
 	{% for item in vandalism %}
-		{{ item.date }} <br />
+	<div class ='entry'>
+		<div class='entry_left'>
+			<a href="{{item.diff_url}}" target="_blank"><h4>{{ item.page }}</h4></a>	
+				<div class='author'>
+				By User: 
+				{% if item.anon == 	False %}
+					<a href = "http://e	n.wikipedia.org/wik	i/user:{{item.offender}}" target="	_blank">{{ 	item.offender }}</a	>
+				{% else %}
+					<a href = "http://e	n.wikipedia.org/wik	i/Special:Contribut	ions/{{item.offender}}" target="_blank	">{{ item.offender 	}}</a>
+				{% endif %}
+				</div>
+		
+		
 		{% if item.image == "no image" %}
 			<img src="http://hostelcentraal.com/Images/no_photo.jpg" width="150" height="150"/>
 		{% else %}
 			<img src="{{item.image}}" height='150px' width='150px'/>
 		{% endif %}
+		
+		At: {{ item.date.strftime('%Y-%m-%d %H:%M ') }} <br />
 		<!-- use the '|safe' filter to inject the raw html--> 
-		<a href="{{item.diff_url}}" target="_blank"><h4>{{ item.page }}</h4></a> 
-		<div class="before">
-			<p> {{ item.vandalism|safe }} </p>
+
+		<!-- tag it with fire -->
+		<form name="tags" action="/tagger/{{ item._id }}" method="get">
+			Tag it with: <input type="text" name="tag" />
+					  	 <input type="submit" value="Submit" />
+		</form>
+		 
 		</div>
-		-------------------------------------------------------------------------------
-		<div class="after">
-			<p>{{ item.unvandalism|safe }}</p>
-		</div>		
-		<!-- This section requires a regex to parse anonymous users from known users. (or go back to the IRC.js script) -->
-		<div class = "author">
-			<p>By User: 
-			{% if item.anon == False %}
-				<a href = "http://en.wikipedia.org/wiki/user:{{item.offender}}" target="_blank">{{ item.offender }}</a>
-			{% else %}
-				<a href = "http://en.wikipedia.org/wiki/Special:Contributions/{{item.offender}}" target="_blank">{{ item.offender }}</a>
-			{% endif %}
+		
+		<div class='entry_right'>
+			<div class="before">
+				<p> {{ item.vandalism|safe }} </p>
+			</div>
+		---------------------------
+			<div class="after">
+				<p>{{ item.unvandalism|safe }}</p>
+			</div>		
+		
 		</div>
+		
+	</div>	
+	
 	{% endfor %}
-</ul>	
+	
 {% endblock %}
