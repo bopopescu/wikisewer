@@ -4,16 +4,16 @@ TODO -
 
 - folksonomy, tagging (political, sexual, prurient, personal/inside)
 	+almost there but i suspect a problem with the request form handler.
+	+the form getter isn't picking anything up.
 
-- Give it the power to vote - vote on what? Not a crucial element, wouldn't really add that much value, but of course it's more a learning exercise for myself. Nobody is going to use this site.
 
 - Give users the ability to build a query (or just have some basic queries there)
 
 - make it automatic, single process from gathering to display (need to better understand how the collections will interact and grow) - Or just run from cron at normal intervals.
 
-- do something with this: http://en.wikipedia.org/wiki/File:<all the files go here>
-
 - better styling 
+
+- do something with this: http://en.wikipedia.org/wiki/File:<all the files go here>
 
 - long-polling
 
@@ -27,3 +27,5 @@ TODONE -
 	 ---that was for converting UNIX time to date time, forget it, we'll store the datetime from the beginning
 
 -DONE- there is no user page for anonymous users, use http://en.wikipedia.org/wiki/Special:Contributions/<IP Address> template here. (will require reg-ex in flask)
+
+-DONE- Give it the power to vote - vote on what? Not a crucial element, wouldn't really add that much value, but of course it's more a learning exercise for myself. Nobody is going to use this site. (Note: increments votes, but this needs to be far more sophisticated)

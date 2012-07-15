@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 #from mongokit import Connection, Document
 #from flask.ext.pymongo import PyMongo
 from pymongo import Connection#, json_util
@@ -23,7 +23,10 @@ app.debug = True
 def home_page():
 	#vandalism = mongo.db.vandalResults.find()
 	vandalism = vandalisms.find()
+	
+	#flash('you guys have all the fun!')
 	return render_template('index.html', vandalism = vandalism)
+
 
 @app.route('/less')
 def less_page():
@@ -37,21 +40,39 @@ def less_page():
 	vandalism_img = vandalisms.find({'image': {'$ne':'no image'}})
 	return render_template('images.html', vandalism_img = vandalism_img)
 
+#increment a vote
+@app.route('/vote_up/<this_record>')
+def vote_up(this_record):
+
+	#this_item = vandalisms.find({'_id':bson.objectid.ObjectId(this_record)})
+
+	vandalisms.update({'_id':bson.objectid.ObjectId(this_record)}, 
+					  {"$inc" : { "votes": 1 }}, upsert=True)
+	return redirect("/")
+
+
 #how to add tags
 @app.route('/tagger/<thisguy>')
 def tag_it(thisguy):
 	
 	#TODO - This tags item is the problem, look into request form get>oo<
-	tags = request.form.get('tag', [])
+	
+	#tags = request.form.get('tag', [])
+	tags = request.form.getlist('tag', [])
+	
+	print type(tags)
 	print tags
 
-	this_item = vandalisms.find({'_id': bson.objectid.ObjectId(thisguy)})
+
+	#this_item = vandalisms.find({'_id': bson.objectid.ObjectId(thisguy)})
 
 	print this_item[1]
 
 
-	vandalisms.update(this_item,
+	vandalisms.update({'_id': bson.objectid.ObjectId(thisguy)},
 					  {'$pushAll': {'tags': tags}}, upsert=True)
+	#flash('New tag added')
+
 	return redirect("/")
 
 

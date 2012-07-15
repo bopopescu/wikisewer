@@ -6,6 +6,15 @@
 </head>
 <title>Wikisewer</title>
 
+{% for message in get_flashed_messages() %}
+  <div class=flash>{{ message }}</div>
+ {% endfor %}
+
 <h1>Wikisewer</h1>
 {% block body %}{% endblock %}
+<a href="http://flask.pocoo.org/"><img
+   src="http://flask.pocoo.org/static/badges/flask-project-s.png"
+   border="0"
+   alt="a Flask project"
+   title="a Flask project"></a>
 </html>
