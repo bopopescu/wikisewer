@@ -26,12 +26,14 @@
 		<!-- use the '|safe' filter to inject the raw html--> 
 
 		<!-- tag it with fire -->
-		<form name="tags" action="/tagger/{{ item._id }}" method="put">
+		<form action="/tagger/{{ item._id }}" method="post">
 			Tag it with: <input type="text" name="tag" />
 					  	 <input type="submit" value="Submit" />
-		</form>
+		</form><br>
+		{{ item.tags }}<br>
 
-		<a href="/vote_up/{{ item._id }}">Like Me!</a>
+		<a href="/vote_up/{{ item._id }}">Like Me!</a><br>
+		Likes {{ item.votes }}
 		 
 		</div>
 		

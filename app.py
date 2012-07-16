@@ -52,13 +52,14 @@ def vote_up(this_record):
 
 
 #how to add tags
-@app.route('/tagger/<thisguy>')
+@app.route('/tagger/<thisguy>', methods=["POST"])
 def tag_it(thisguy):
-	
+		
 	#TODO - This tags item is the problem, look into request form get>oo<
-	
+	#update  15Jul2012 - sort of got this http://stackoverflow.com/questions/11155342/how-to-fetch-html-data-in-python
 	#tags = request.form.get('tag', [])
-	tags = request.form.getlist('tag', [])
+	tags = request.form.getlist('tag')
+	#tags = request.form['tag']
 	
 	print type(tags)
 	print tags
@@ -66,8 +67,7 @@ def tag_it(thisguy):
 
 	#this_item = vandalisms.find({'_id': bson.objectid.ObjectId(thisguy)})
 
-	print this_item[1]
-
+	#print this_item[1]
 
 	vandalisms.update({'_id': bson.objectid.ObjectId(thisguy)},
 					  {'$pushAll': {'tags': tags}}, upsert=True)

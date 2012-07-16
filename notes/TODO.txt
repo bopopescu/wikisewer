@@ -2,9 +2,13 @@
 TODO -
 ####################################
 
+- get some AJAX handling the updates.
+
 - folksonomy, tagging (political, sexual, prurient, personal/inside)
 	+almost there but i suspect a problem with the request form handler.
 	+the form getter isn't picking anything up.
+	+okay, well we've got one tag coming across, form data accomplished.
+	+need to understand pushing and appending list items to record (storing and updating lists in mongo) 
 
 
 - Give users the ability to build a query (or just have some basic queries there)
