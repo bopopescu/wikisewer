@@ -2,54 +2,54 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-	{% for item in vandalism %}
-	<div class ='entry'>
-		<div class='entry_left'>
-			<a href="{{item.diff_url}}" target="_blank"><h4>{{ item.page }}</h4></a>	
-				<div class='author'>
-				By User: 
-				{% if item.anon == 	False %}
-					<a href = "http://e	n.wikipedia.org/wik	i/user:{{item.offender}}" target="	_blank">{{ 	item.offender }}</a	>
-				{% else %}
-					<a href = "http://e	n.wikipedia.org/wik	i/Special:Contribut	ions/{{item.offender}}" target="_blank	">{{ item.offender 	}}</a>
-				{% endif %}
-				</div>
-		
-		
-		{% if item.image == "no image" %}
-			<img src="http://hostelcentraal.com/Images/no_photo.jpg" width="150" height="150"/>
-		{% else %}
-			<img src="{{item.image}}" height='150px' width='150px'/>
-		{% endif %}
-		
-		At: {{ item.date.strftime('%Y-%m-%d %H:%M ') }} <br />
-		<!-- use the '|safe' filter to inject the raw html--> 
+  {% for item in vandalism %}
+  <div class ='entry'>
+    <div class='entry_left'>
+      <a href="{{item.diff_url}}" target="_blank"><h4>{{ item.page }}</h4></a>	
+        <div class='author'>
+        By User: 
+        {% if item.anon == 	False %}
+          <a href = "http://e	n.wikipedia.org/wik	i/user:{{item.offender}}" target="	_blank">{{ 	item.offender }}</a	>
+        {% else %}
+          <a href = "http://e	n.wikipedia.org/wik	i/Special:Contribut	ions/{{item.offender}}" target="_blank	">{{ item.offender 	}}</a>
+        {% endif %}
+        </div>
+    
+    
+    {% if item.image == "no image" %}
+      <img src="http://hostelcentraal.com/Images/no_photo.jpg" width="150" height="150"/>
+    {% else %}
+      <img src="{{item.image}}" height='150px' width='150px'/>
+    {% endif %}
+    
+    At: {{ item.date.strftime('%Y-%m-%d %H:%M ') }} <br />
+    <!-- use the '|safe' filter to inject the raw html--> 
 
-		<!-- tag it with fire -->
-		<form action="/tagger/{{ item._id }}" method="post">
-			Tag it with: <input type="text" name="tag" />
-					  	 <input type="submit" value="Submit" />
-		</form><br>
-		{{ item.tags }}<br>
+    <!-- tag it with fire -->
+    <form action="/tagger/{{ item._id }}" method="post">
+      Tag it with: <input type="text" name="tag" />
+            	 <input type="submit" value="Submit" />
+    </form><br>
+    {{ item.tags }}<br>
 
-		<a href="/vote_up/{{ item._id }}">Like Me!</a><br>
-		Likes {{ item.votes }}
-		 
-		</div>
-		
-		<div class='entry_right'>
-			<div class="before">
-				<p> {{ item.vandalism|safe }} </p>
-			</div>
-		---------------------------
-			<div class="after">
-				<p>{{ item.unvandalism|safe }}</p>
-			</div>		
-		
-		</div>
-		
-	</div>	
-	
-	{% endfor %}
-	
+    <a href='/vote_up/{{ item._id }}' id='{{ item.votes }}' class='vote_link'>Vote for Me!</a><br>
+    Likes: <span class='vote_tally{{ item.votes }}'></span>
+     
+    </div>
+    
+    <div class='entry_right'>
+      <div class="before">
+        <p> {{ item.vandalism|safe }} </p>
+      </div>
+    ---------------------------
+      <div class="after">
+        <p>{{ item.unvandalism|safe }}</p>
+      </div>		
+    
+    </div>
+    
+  </div>	
+  
+  {% endfor %}
+  
 {% endblock %}

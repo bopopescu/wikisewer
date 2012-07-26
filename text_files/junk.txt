@@ -1,0 +1,39 @@
+	result = "chocolate"
+	#vandalisms.find({'_id':bson.objectid.ObjectId(this_record)}, {'votes':1})
+
+	return result
+
+
+	$('a#vote_link').bind('click', function(e){
+		var url = $(this).attr('href');
+		$('span#vote_tally').load(url);
+		e.preventDefault();
+	});
+
+
+	At: {{ item.date.strftime('%Y-%m-%d %H:%M ') }} <br />
+
+		//dojo........
+	// 	dojo.addOnLoad(function(event){
+	// 		dojo.connect(dojo.byId('tag_submit'), 'onclick', function(event){
+	// 			dojo.stopEvent(event);
+	// 			dojo.xhrPost({
+	// 				form: 'tag_input',
+	// 				handleAs: 'text',
+	// 				load: function(data){
+	// 					console.log(data);
+	// 					var success = data.success;
+	// 					var msg = data.message;
+	// 					if(success) {
+	// 						alert(msg, data);
+
+	// 					}
+	// 				  },
+	// 				error: function(error){
+	// 					console.log(error);
+	// 				}
+	// 			}) //xhrPost()
+				
+	// 		}); //connect()
+	// 	}); //addOnLoad()
+		

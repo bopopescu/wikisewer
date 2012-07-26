@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, jsonify
 #from mongokit import Connection, Document
 #from flask.ext.pymongo import PyMongo
 from pymongo import Connection#, json_util
@@ -18,63 +18,66 @@ vandalisms = db.vandalResults
 app.debug = True
 
 #connection = Connection(app.config['MONGO_HOST'],
-						#app.config['MONGO_PORT'])
+            #app.config['MONGO_PORT'])
 @app.route('/')
 def home_page():
-	#vandalism = mongo.db.vandalResults.find()
-	vandalism = vandalisms.find()
-	
-	#flash('you guys have all the fun!')
-	return render_template('index.html', vandalism = vandalism)
+  #vandalism = mongo.db.vandalResults.find()
+  vandalism = vandalisms.find()
+  
+  #flash('you guys have all the fun!')
+  return render_template('index.html', vandalism = vandalism)
 
 
 @app.route('/less')
 def less_page():
-	#vandalism = mongo.db.vandalResults.find()
-	vandalism_less = vandalisms.find({'delta': {'$lt':50}})
-	return render_template('less.html', vandalism_less = vandalism_less)
+  #vandalism = mongo.db.vandalResults.find()
+  vandalism_less = vandalisms.find({'delta': {'$lt':50}})
+  return render_template('less.html', vandalism_less = vandalism_less)
 
 @app.route('/images')
 def less_page():
-	#vandalism = mongo.db.vandalResults.find()
-	vandalism_img = vandalisms.find({'image': {'$ne':'no image'}})
-	return render_template('images.html', vandalism_img = vandalism_img)
+  #vandalism = mongo.db.vandalResults.find()
+  vandalism_img = vandalisms.find({'image': {'$ne':'no image'}})
+  return render_template('images.html', vandalism_img = vandalism_img)
 
 #increment a vote
 @app.route('/vote_up/<this_record>')
 def vote_up(this_record):
 
-	#this_item = vandalisms.find({'_id':bson.objectid.ObjectId(this_record)})
+  vandalisms.update({'_id':bson.objectid.ObjectId(this_record)}, 
+            {"$inc" : { "votes": 1 }}, upsert=True)
 
-	vandalisms.update({'_id':bson.objectid.ObjectId(this_record)}, 
-					  {"$inc" : { "votes": 1 }}, upsert=True)
-	return redirect("/")
+  #vandalism = vandalisms.find({'_id':bson.objectid.ObjectId(this_record)})
+  
+  result = 'test'
 
+  return result
+  #return jsonify(vandalism=vandalism)
 
 #how to add tags
 @app.route('/tagger/<thisguy>', methods=["POST"])
 def tag_it(thisguy):
-		
-	#TODO - This tags item is the problem, look into request form get>oo<
-	#update  15Jul2012 - sort of got this http://stackoverflow.com/questions/11155342/how-to-fetch-html-data-in-python
-	#tags = request.form.get('tag', [])
-	tags = request.form.getlist('tag')
-	#tags = request.form['tag']
-	
-	print type(tags)
-	print tags
+    
+  #TODO - This tags item is the problem, look into request form get>oo<
+  #update  15Jul2012 - sort of got this http://stackoverflow.com/questions/11155342/how-to-fetch-html-data-in-python
+  #tags = request.form.get('tag', [])
+  tags = request.form.getlist('tag')
+  #tags = request.form['tag']
+  
+  print type(tags)
+  print tags
 
 
-	#this_item = vandalisms.find({'_id': bson.objectid.ObjectId(thisguy)})
+  #this_item = vandalisms.find({'_id': bson.objectid.ObjectId(thisguy)})
 
-	#print this_item[1]
+  #print this_item[1]
 
-	vandalisms.update({'_id': bson.objectid.ObjectId(thisguy)},
-					  {'$pushAll': {'tags': tags}}, upsert=True)
-	#flash('New tag added')
+  vandalisms.update({'_id': bson.objectid.ObjectId(thisguy)},
+            {'$pushAll': {'tags': tags}}, upsert=True)
+  #flash('New tag added')
 
-	return redirect("/")
+  return redirect("/")
 
 
 if __name__ == '__main__':
-	app.run()
+  app.run()

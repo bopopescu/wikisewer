@@ -7,10 +7,10 @@ img				{ border: solid; }
 
 
 .diffchange		{ background-color: #facade; font-weight:bold; }
-.before			{ background-color:#fff8d7; }
+.before			{ background-color: #fce0ed; }   
 .after			{ background-color:#f1fdd9; }
 .entry          { display:table; max-width: 1024px; width: 100%; border: dotted; border-width: thin; }
-.entry_left     { display:table-cell; width: 400px; background-color: #fce0ed; padding: 20px; }
+.entry_left     { display:table-cell; width: 400px; background-color:#fff; padding: 20px; }
 .entry_right    { display: table-cell; width: 100%; max-width:800px; padding: 20px;
 	/*for wrapping unbroken strings sent from wikipedia*/
 	white-space: pre-wrap;      /* CSS3 */   

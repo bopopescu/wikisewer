@@ -1,8 +1,43 @@
 <!doctype html>
 <head>
-	{% block head %}
-	<link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
-	{% endblock %}
+  {% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+  <script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
+  <!--<script type=text/javascript
+ src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+
+  <script>
+
+    $(document).ready(function(){
+    //   $('.vote_link').bind('click', function(e){
+    //       alert('i have been clicked argh');
+    //       e.preventDefault();
+    //       var url = $(this).attr('name');
+    //       $.ajax(url, function(data){
+    //           $('.vote_tally').html(data);
+    //       });
+    //   });
+    // });
+    // if (jQuery) {
+    //   alert("jQuery is here");
+    // } else {
+    //   alert("You have no jquery");
+    // }
+
+  	$('.vote_link').bind('click', function(e){
+      e.preventDefault();
+      var url = $(this).attr('href');
+      var time = $(this).attr('id').toString();
+		  console.log('here we go');
+		  console.log(url);
+      console.log(typeof(eyed));
+      console.log(".vote_tally"+time)
+		  $(".vote_tally"+time).load(url);
+		 }); 
+
+	  });
+  </script>
+  {% endblock %}
 </head>
 <title>Wikisewer</title>
 
@@ -17,6 +52,5 @@
    border="0"
    alt="a Flask project"
    title="a Flask project"></a>
-<script type=text/javascript
- src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
 </html>
